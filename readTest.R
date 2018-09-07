@@ -11,7 +11,7 @@ getXlsxFiles = function(path, type){
         print("Not supported type")
         return(NULL)
     }
-    xlsx
+    return(substr(xlsx,1,nchar(xlsx)-5))
 }
 
 getSchoolNames = function(path, type){

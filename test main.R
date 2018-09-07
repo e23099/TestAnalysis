@@ -2,19 +2,36 @@ source("E:/1061_extracurricular/TC/TestAnalysis/readTest.R", encoding = "UTF-8")
 source("E:/1061_extracurricular/TC/TestAnalysis/TableGenerate.R", encoding = "UTF-8")
 source("E:/1061_extracurricular/TC/TestAnalysis/PlotGenerate.R", encoding = "UTF-8")
 
+## manual settings
+# step 1: choose data location
 DataDir = "E:/1061_extracurricular/TC/Hsinchu/test result"
-x = c("峨眉", "尖石", "成功", "華山")
-x.control = c("峨眉",  "尖石")
+
+# step 2: choose which schools to analysis
+x = getSchoolNames(DataDir, "junior")
+x = x[c(3,1,4,5)] # change school's order if necessary (and even remove some school)
+
+# step 3: choose which schools are in control group / compare group
+x.control = getControlSchool(DataDir, "junior")
+x.control = x.control[c(3,2)] # modify if needed
 x.compare.good = "成功"
 x.compare.norm = "華山"
-xlsx.name = c("總表-實驗峨眉國中",
-              
-              "總表-實驗尖石國中",
-              "總表-對照成功國中",
-              "總表-對照華山國中")
-# sheet.name = c("106-1七年級", "106-1八年級")
-sheet.name = "106-2八年級"
 
-JuniorAll = CollectAll(x, DataDir, sheet.name, xlsx.name, "toeic8")
+# step 4: get xlsx names
+xlsx.name = getXlsxFiles(DataDir, "junior")
+xlsx.name = xlsx.name[c(3,1,4,5)] # modify if needed
+
+# step 5: choose which sheet to read as data
+sheet.name = c("106-1七年級", "106-1八年級")
+
+
+## Analysis
+# step 1: collect cleaned data
+JuniorAll = CollectAll(x, DataDir, sheet.name, xlsx.name, "junior")
 JuniorAll.acu = CreateAcu(JuniorAll, "junior")
+
+# step 2: create tables needed
 CreateTables(JuniorAll, JuniorAll.acu, x.control, x.compare.good, x.compare.norm)
+
+# step 3: create plots needed
+PlotEverything(JuniorAll, JuniorAll.acu, "junior", x.control)
+
