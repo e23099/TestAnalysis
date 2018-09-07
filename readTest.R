@@ -153,7 +153,7 @@ CreateAcu = function(JuniorAll, type, out = "acu"){
     }
     else if(type == "toeic8"){
         JuniorAll.acu = JuniorAll["L", "R", "Total"]
-        return(JuniorALl.acu)
+        return(JuniorAll.acu)
     }
     else{
         print("Not supported type")
