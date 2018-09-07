@@ -44,30 +44,11 @@ getAllSheet = function(school, path){
     return(allSheet)
 }
 
-getSheet = function(xlsx, path, grades, semester){
-    if(!grepl(".xlsx", xlsx))
-        xlsx = paste0(xlsx, ".xlsx")
-    allSheet = try(excel_sheets(paste0(path, "/", xlsx)))
-    if(class(allSheet) == "try-error"){
-        print("wrong path or xlsx name")
-        return(NULL)
-    }
-    grade = paste0(grades, collapse = "")
-    allSheet = gsub(" ", "", allSheet, fixed = TRUE)
-    sheet.toRead = grepl(paste0("[", grade, "]年級$"), allSheet) & grepl(semester, allSheet)
-    return(allSheet[sheet.toRead])
+RemoveWhiteSpace = function(string){
+    return(gsub(" ", "", string, fixed = TRUE))
 }
 
-tryCollect = function(x, path, grade, semester, xlsx.name){
-    for(i in 1:length(x)){
-        allsheets = getSheet(xlsx.name[i], path, grade, semester)
-        for(j in allsheets){
-            print(j)
-        }
-    }
-}
-
-CollectAll = function(x, DataDir, grade, semester, xlsx.name, type){
+CollectAll = function(x, DataDir, xlsx.name, sheet.name, type){
     ## init
     if(type == "junior"){
         parts = rep(1:5,c(3,3,3,6,9)) # 各大題題數：1~5大題，分別有 3 3 3 6 9 題
@@ -108,13 +89,15 @@ CollectAll = function(x, DataDir, grade, semester, xlsx.name, type){
     ## Data Collecting
     JuniorAll = c()
     for(i in 1:length(x)){
-        
-        sheet.name = getSheet(xlsx.name[i], DataDir, grade, semester)
+        # delete any whitespace in xlsx sheet names
+        allSheets = getAllSheet(xlsx.name[i], DataDir)
         
         for(j in 1:length(sheet.name)){
+            # choose correct sheet
+            real.sheet.name = allSheets[which(RemoveWhiteSpace(allSheets) == sheet.name[j])]
             # get number of rows in a xlsx file
             n = try(nrow(read_excel(paste0(DataDir,"/",xlsx.name[i],".xlsx"),
-                                    sheet = sheet.name[j],
+                                    sheet = real.sheet.name,
                                     range = cell_cols("A"))),
                     silent = T
             )
@@ -122,7 +105,7 @@ CollectAll = function(x, DataDir, grade, semester, xlsx.name, type){
             # read data frame within xlsx file according to n
             if(type == "toeic8") n = n - 5
             school.table = as.data.frame(read_excel(paste0(DataDir,"/",xlsx.name[i],".xlsx"),
-                                                    sheet = sheet.name[j],
+                                                    sheet = real.sheet.name,
                                                     range = paste0(rng,n+6),
                                                     col_names = head.name,
                                                     col_types = head.type))
