@@ -21,12 +21,12 @@ xlsx.name = getXlsxFiles(DataDir, "junior")
 xlsx.name = xlsx.name[c(3,1,4,5)] # modify if needed
 
 # step 5: choose which sheet to read as data
-sheet.name = c("106-1七年級", "106-1八年級")
-
+grade = "七八"
+semester = "106-1"
 
 ## Analysis
 # step 1: collect cleaned data
-JuniorAll = CollectAll(x, DataDir, sheet.name, xlsx.name, "junior")
+JuniorAll = CollectAll(x, DataDir, grade, semester, xlsx.name, "junior")
 JuniorAll.acu = CreateAcu(JuniorAll, "junior")
 
 # step 2: create tables needed
