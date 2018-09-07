@@ -13,15 +13,15 @@ x = x[c(3,1,4,5)] # change school's order if necessary (and even remove some sch
 # step 3: choose which schools are in control group / compare group
 x.control = getControlSchool(DataDir, "junior")
 x.control = x.control[c(3,2)] # modify if needed
-x.compare.good = "¦¨¥\"
-x.compare.norm = "µØ¤s"
+x.compare.good = "æˆåŠŸ"
+x.compare.norm = "è¯å±±"
 
 # step 4: get xlsx names
 xlsx.name = getXlsxFiles(DataDir, "junior")
 xlsx.name = xlsx.name[c(3,1,4,5)] # modify if needed
 
 # step 5: choose which sheet to read as data
-grade = "¤C¤K"
+grade = "ä¸ƒå…«"
 semester = "106-1"
 
 ## Analysis
