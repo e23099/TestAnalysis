@@ -49,6 +49,8 @@ PlotEachSchool = function(JuniorAll, JuniorAll.acu, type, k1 = 2, w1 = 850, h1 =
                             try(boxplot(school[,tp+j]~factor(JuniorAll[students, "class"], unique(JuniorAll[students, "class"])),
                                     xlab="",ylab=topic.score[tp+j],main=paste0(x[i],"國中各班",topic[tp+j],"盒鬚圖"),col="lightgray",ylim=c(0,topic.maxScore[tp+j])),
                                 silent = T)
+                            if(length(unique(JuniorAll[students, "class"]) < 2))
+                                axis(1, at = 1, unique(JuniorAll[students, "class"]))
                         }
                         dev.off()
                     }
@@ -63,6 +65,8 @@ PlotEachSchool = function(JuniorAll, JuniorAll.acu, type, k1 = 2, w1 = 850, h1 =
                             xlab="",ylab=topic.score[tp+j],
                             main=paste0(x[i],"各年級",topic[tp+j],"盒鬚圖"),
                             col="lightgray",ylim=c(0,topic.maxScore[tp+j])), silent = T)
+                    if(length(unique(JuniorAll[students, "grade"]) < 2))
+                        axis(1, at = 1, unique(JuniorAll[students, "grade"]))
                 }
                 dev.off()
             }
