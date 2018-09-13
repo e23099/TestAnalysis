@@ -162,7 +162,7 @@ CreateAcu = function(JuniorAll, type, out = "acu"){
     }
 
     for(i in 1:length(part.num)){
-        JuniorAll.sum = cbind(JuniorAll.sum, apply(JuniorAll[,which(parts == i)+4],1,sum))
+        JuniorAll.sum = cbind(JuniorAll.sum, apply(JuniorAll[,which(parts == i)+4],1,function(x)sum(x, na.rm=T)))
     }
     JuniorAll.sum = cbind(JuniorAll.sum, apply(JuniorAll[,1:length(parts)+4],1,function(x)sum(x, na.rm=T)))
     JuniorAll.acu = t(t(JuniorAll.sum) / append(part.num, 1))
