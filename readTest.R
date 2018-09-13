@@ -48,6 +48,23 @@ RemoveWhiteSpace = function(string){
     return(gsub(" ", "", string, fixed = TRUE))
 }
 
+cleanData = function(JuniorAll, type){
+    ans = c()
+    if(type == "junior" | type == "elementary"){
+        ans = JuniorAll[,5:ncol(JuniorAll)]
+    }
+    else if(type == "toeic8"){
+        return(JuniorAll)
+    }
+    else{
+        print("not supported type in cleanData()")
+        return(NULL)
+    }
+    NG.ans = unique(which(!(ans == 1 | ans == 0 | is.na(ans)), arr.ind = T)[,1])
+    JuniorAll = JuniorAll[-NG.ans,]
+    return(JuniorAll)
+}
+
 CollectAll = function(x, DataDir, xlsx.name, sheet.name, type){
     ## init
     if(type == "junior"){
@@ -118,7 +135,8 @@ CollectAll = function(x, DataDir, xlsx.name, sheet.name, type){
     }
     write.csv(JuniorAll, "Table 0 Cleaned Data.csv", row.names = FALSE)
     # rm(school.table, head.type, head.name, col_names, parts, rng)
-    JuniorAll
+    JuniorAll = cleanData(JuniorAll, type)
+    return(JuniorAll)
 }
 
 ##### Key對的題數：JuniorAll.sum #####
