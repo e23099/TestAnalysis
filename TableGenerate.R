@@ -63,9 +63,14 @@ CreateAnoClass = function(JuniorAll, JuniorAll.acu, anoClass.name){
                 next
             }
             for(part in 1:length(JuniorAll.acu)){
-                gradeResult = cbind( gradeResult,
-                                     summary(aov(JuniorAll.acu[students[grade.j],part]~JuniorAll[students[grade.j], "class"]))[[1]][["F value"]][[1]],
-                                     summary(aov(JuniorAll.acu[students[grade.j],part]~JuniorAll[students[grade.j], "class"]))[[1]][["Pr(>F)"]][[1]])
+                part.summary = try(c(summary(aov(JuniorAll.acu[students[grade.j],part]~JuniorAll[students[grade.j], "class"]))[[1]][["F value"]][[1]],
+                                     summary(aov(JuniorAll.acu[students[grade.j],part]~JuniorAll[students[grade.j], "class"]))[[1]][["Pr(>F)"]][[1]]),
+                                   silent = T)
+                if(class(part.summary) == "try-error") break
+                gradeResult = cbind(gradeResult, part.summary[1], part.summary[2])
+            }
+            if(length(gradeResult) < 2*ncol(JuniorAll.acu)){
+                gradeResult = append(gradeResult, rep(NA, 2*ncol(JuniorAll.acu)-length(gradeResult)))
             }
             schoolResult = rbind(schoolResult, gradeResult)
             anoClass.col2 = append(anoClass.col2, j)
