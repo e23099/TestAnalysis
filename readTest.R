@@ -61,7 +61,8 @@ cleanData = function(JuniorAll, type){
         return(NULL)
     }
     NG.ans = unique(which(!(ans == 1 | ans == 0 | is.na(ans)), arr.ind = T)[,1])
-    JuniorAll = JuniorAll[-NG.ans,]
+    if(length(NG.ans))
+        JuniorAll = JuniorAll[-NG.ans,]
     return(JuniorAll)
 }
 
@@ -135,7 +136,7 @@ CollectAll = function(x, DataDir, xlsx.name, sheet.name, type){
     }
     write.csv(JuniorAll, "Table 0 Cleaned Data.csv", row.names = FALSE)
     # rm(school.table, head.type, head.name, col_names, parts, rng)
-    JuniorAll = cleanData(JuniorAll, type)
+    # JuniorAll = cleanData(JuniorAll, type)
     return(JuniorAll)
 }
 
