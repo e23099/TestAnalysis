@@ -62,7 +62,7 @@ CreateReva = function(RealAns, type, tableName = "Table 5 Reliability and Validi
         ReVa = rbind(ReVa, v)
     }
     ReVa = as.data.frame(ReVa)
-    names(ReVa) = c("Alpha", paste0("Q", 1:length(part.num)))
+    names(ReVa) = c("Alpha", paste0("Q", 1:max(part.num)))
     row.names(ReVa) = part.name    
     write.csv(ReVa, paste0(tableName, ".csv"))
     return(ReVa)
