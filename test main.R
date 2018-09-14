@@ -36,4 +36,6 @@ CreateTables(JuniorAll, JuniorAll.acu, x.control, x.compare.good, x.compare.norm
 PlotEverything(JuniorAll, JuniorAll.acu, "junior", x.control)
 
 # step 4: create reliability-validity test
-CreateReva(JuniorAll, "junior")
+CreateReva(JuniorAll, "junior", fm = 'ml') # check if any printed message
+                                           # also check if factor loadings is out of [-1,1], change fm = 'ml' or others
+                                           # fm default is "gls"
