@@ -1,6 +1,6 @@
 library(Scale)
 
-CreateReva = function(RealAns, type, tableName = "Table 5 Reliability and Validity"){
+CreateReva = function(RealAns, type, fm = "gls", tableName = "Table 5 Reliability and Validity"){
     ans = RealAns[,5:ncol(RealAns)]
     if(type == "junior"){
         part.num = c(3,3,3,6,9)
@@ -42,8 +42,8 @@ CreateReva = function(RealAns, type, tableName = "Table 5 Reliability and Validi
         ## step 2: Start ItemAnalysis
         scale = Scale(qus)
         pre = suppressWarnings(PreProc(na.exclude(scale)))
-        rel = suppressWarnings(ItemAnalysis(pre))
-        
+        rel = suppressWarnings(ItemAnalysis(pre, fm = fm)) # fm is method to extract factor loadings
+                                                           # see ?psych::fa
         # step 3: summarize Alpha and factor loadings
         v = c()
         for(q in 1:part.num[i]){
