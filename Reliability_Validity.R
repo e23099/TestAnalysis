@@ -121,7 +121,7 @@ CreateReva_Concept = function(RealAns, type, fm = "gls", tableName = "Table 5 Re
         u = split(v, part[which(concept == i)]) # split v into each part of this concept
         for(p in 1:length(unique(part[which(concept == i)]))){
             if(length(u[[p]]) < max(part.num))
-                u[[p]] = append(u[[p]], rep(NA, 10-length(u[[p]])))
+                u[[p]] = append(u[[p]], rep(NA, max(part.num)-length(u[[p]])))
             Reva = rbind(Reva, append(as.numeric(rel$rely$alpha$total[1]), u[[p]]))
         }
     }
