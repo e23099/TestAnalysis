@@ -66,11 +66,10 @@ CreateAnoClass = function(JuniorAll, JuniorAll.acu, anoClass.name){
                 part.summary = try(c(summary(aov(JuniorAll.acu[students[grade.j],part]~JuniorAll[students[grade.j], "class"]))[[1]][["F value"]][[1]],
                                      summary(aov(JuniorAll.acu[students[grade.j],part]~JuniorAll[students[grade.j], "class"]))[[1]][["Pr(>F)"]][[1]]),
                                    silent = T)
-                if(class(part.summary) == "try-error") break
-                gradeResult = cbind(gradeResult, part.summary[1], part.summary[2])
-            }
-            if(length(gradeResult) < 2*ncol(JuniorAll.acu)){
-                gradeResult = append(gradeResult, rep(NA, 2*ncol(JuniorAll.acu)-length(gradeResult)))
+                if(class(part.summary) == "try-error")
+                    gradeResult = append(gradeResult, rep(NA, 2))
+                else
+                    gradeResult = append(gradeResult, part.summary)
             }
             schoolResult = rbind(schoolResult, gradeResult)
             anoClass.col2 = append(anoClass.col2, j)
@@ -113,11 +112,10 @@ CreateAnoSchool = function(JuniorAll, JuniorAll.acu, anoSchool.name){
                 part.summary = try(c(summary(aov(JuniorAll.acu[grade.j,part]~JuniorAll[grade.j,"school"]))[[1]][["F value"]][[1]],
                                      summary(aov(JuniorAll.acu[grade.j,part]~JuniorAll[grade.j,"school"]))[[1]][["Pr(>F)"]][[1]]),
                                    silent = T)
-                if(class(part.summary) == "try-error") break
-                gradeResult = cbind(gradeResult, part.summary[1], part.summary[2])
-            }
-            if(length(gradeResult) < 2*ncol(JuniorAll.acu)){
-                gradeResult = append(gradeResult, rep(NA, 2*ncol(JuniorAll.acu)-length(gradeResult)))
+                if(class(part.summary) == "try-error")
+                    gradeResult = append(gradeResult, rep(NA, 2))
+                else
+                    gradeResult = append(gradeResult, part.summary)
             }
             anoSchool = rbind(anoSchool, gradeResult)
             anoSchool.col1 = append(anoSchool.col1, paste0(j,"年級各校間"))
