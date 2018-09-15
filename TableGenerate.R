@@ -176,9 +176,15 @@ CreateAnoControl = function(JuniorAll, JuniorAll.acu, anoControl.name, x.control
                 norm.summary = try(c(summary(aov(JuniorAll.acu[grade.j,part][-good]~control[grade.j][-good]))[[1]][["F value"]][[1]],
                                      summary(aov(JuniorAll.acu[grade.j,part][-good]~control[grade.j][-good]))[[1]][["Pr(>F)"]][[1]]),
                                    silent = T)
-                if(class(good.summary) == "try-error" | class(norm.summary) == "try-error") break
-                anoControl.good = cbind(anoControl.good,good.summary[1], good.summary[2])    
-                anoControl.norm = cbind(anoControl.norm,norm.summary[1], norm.summary[2])
+                if(class(good.summary) == "try-error" | class(norm.summary) == "try-error"){
+                    anoControl.good = append(anoControl.good, rep(NA, 2))    
+                    anoControl.norm = append(anoControl.norm, rep(NA, 2))
+                }
+                else{
+                    anoControl.good = append(anoControl.good,good.summary)    
+                    anoControl.norm = append(anoControl.norm,norm.summary)
+                }
+                
             }
             if(length(anoControl.good) < 2*ncol(JuniorAll.acu)){
                 anoControl.good = append(anoControl.good, rep(NA, 2*ncol(JuniorAll.acu)-length(anoControl.good)))
