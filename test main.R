@@ -39,3 +39,4 @@ PlotEverything(JuniorAll, JuniorAll.acu, "junior", x.control)
 CreateReva(JuniorAll, "junior", fm = 'ml') # check if any printed message
                                            # also check if factor loadings is out of [-1,1], change fm = 'ml' or others
                                            # fm default is "gls"
+CreateReva_Concept(JuniorAll, "junior")
