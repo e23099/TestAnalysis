@@ -152,11 +152,10 @@ CreateAnoControl = function(JuniorAll, JuniorAll.acu, anoControl.name, x.control
                 part.summary = try(c(summary(aov(JuniorAll.acu[grade.j,part]~control[grade.j]))[[1]][["F value"]][[1]],
                                      summary(aov(JuniorAll.acu[grade.j,part]~control[grade.j]))[[1]][["Pr(>F)"]][[1]]),
                                    silent = T)
-                if(class(part.summary) == "try-error") break
-                gradeResult = cbind(gradeResult, part.summary[1], part.summary[2])
-            }
-            if(length(gradeResult) < 2*ncol(JuniorAll.acu)){
-                gradeResult = append(gradeResult, rep(NA, 2*ncol(JuniorAll.acu)-length(gradeResult)))
+                if(class(part.summary) == "try-error")
+                    gradeResult = append(gradeResult, rep(NA, 2))
+                else
+                    gradeResult = append(gradeResult, part.summary)
             }
             anoControl = rbind(anoControl, c(paste0(j,"年級實驗對照"),round(gradeResult,4)))
         }
