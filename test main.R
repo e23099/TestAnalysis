@@ -14,20 +14,21 @@ x = x[c(3,1,2,4)] # change school's order if necessary (and even remove some sch
 # step 3: choose which schools are in control group / compare group
 x.control = getControlSchool(DataDir, "junior")
 x.control = x.control[c(3,1,2)] # modify if needed
-# x.compare.good = "ÊàêÂäü"
-# x.compare.norm = "ËèØÂ±±"
+# x.compare.good = "??êÂ??"
+# x.compare.norm = "?èØÂ±?"
 
 # step 4: get xlsx names
 xlsx.name = getXlsxFiles(DataDir, "junior")
 xlsx.name = xlsx.name[c(3,1,2,4)] # modify if needed
 
 # step 5: choose which sheet to read as data
-sheet.name = c("106-1‰∏ÉÂπ¥Á¥ö", "106-1ÂÖ´Âπ¥Á¥ö")
+sheet.name = c("106-1‰∏ÉÂπ¥Á¥?", "106-1?Ö´Âπ¥Á??")
 
 ## Analysis
 # step 1: collect cleaned data
 JuniorAll = CollectAll(x, DataDir, xlsx.name, sheet.name,"junior")
 JuniorAll.acu = CreateAcu(JuniorAll, "junior")
+JuniorAll.acu = Junior_weight_correct(JuniorAll.acu) # if project is junior, correct their accuracy rate
 
 # step 2: create tables needed
 CreateTables(JuniorAll, JuniorAll.acu, x.control, x.compare.good, x.compare.norm)
@@ -39,4 +40,4 @@ PlotEverything(JuniorAll, JuniorAll.acu, "junior", x.control)
 CreateReva(JuniorAll, "junior", fm = 'ml') # check if any printed message
                                            # also check if factor loadings is out of [-1,1], change fm = 'ml' or others
                                            # fm default is "gls"
-CreateReva_Concept(JuniorAll, "junior")
+CreateReva_Concept(JuniorAll, "junior")    # in printed message, the number of duplicated/useless questions is of the original order.(e.g. 12 means the 12th Q in that concept)

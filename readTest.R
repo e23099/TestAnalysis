@@ -161,7 +161,7 @@ CreateAcu = function(JuniorAll, type, out = "acu"){
         print("Not supported type")
         return(NULL)
     }
-
+    # add up number of correct answers in each part
     for(i in 1:length(part.num)){
         JuniorAll.sum = cbind(JuniorAll.sum, 
                               apply(JuniorAll[,which(parts == i)+4],1,
@@ -185,5 +185,12 @@ CreateAcu = function(JuniorAll, type, out = "acu"){
         return(JuniorAll.sum)
     }
 
+    return(JuniorAll.acu)
+}
+
+Junior_weight_correct = function(JuniorAll.acu){
+    w = c(rep(0.2/9,3), rep(0.8/15, 2))
+    part.num = c(3,3,3,6,9)
+    JuniorAll.acu$Total = apply(JuniorAll.acu[,1:5], 1, function(x)(sum(x*w*part.num)))
     return(JuniorAll.acu)
 }
