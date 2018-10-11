@@ -2,6 +2,7 @@ source("E:/1061_extracurricular/TC/TestAnalysis/readTest.R", encoding = "UTF-8")
 source("E:/1061_extracurricular/TC/TestAnalysis/TableGenerate.R", encoding = "UTF-8")
 source("E:/1061_extracurricular/TC/TestAnalysis/PlotGenerate.R", encoding = "UTF-8")
 source("E:/1061_extracurricular/TC/TestAnalysis/Reliability_Validity.R", encoding = "UTF-8")
+source("E:/1061_extracurricular/TC/TestAnalysis/comparison.R", encoding = "UTF-8")
 
 ## manual settings
 # step 1: choose data location
@@ -14,15 +15,15 @@ x = x[c(3,1,2,4)] # change school's order if necessary (and even remove some sch
 # step 3: choose which schools are in control group / compare group
 x.control = getControlSchool(DataDir, "junior")
 x.control = x.control[c(3,1,2)] # modify if needed
-# x.compare.good = "??��??"
-# x.compare.norm = "?���?"
+# x.compare.good = "成功"
+# x.compare.norm = "華山"
 
 # step 4: get xlsx names
 xlsx.name = getXlsxFiles(DataDir, "junior")
 xlsx.name = xlsx.name[c(3,1,2,4)] # modify if needed
 
 # step 5: choose which sheet to read as data
-sheet.name = c("106-1七年�?", "106-1?��年�??")
+sheet.name = c("106-2七年級")
 
 ## Analysis
 # step 1: collect cleaned data
@@ -41,3 +42,9 @@ CreateReva(JuniorAll, "junior", fm = 'ml') # check if any printed message
                                            # also check if factor loadings is out of [-1,1], change fm = 'ml' or others
                                            # fm default is "gls"
 CreateReva_Concept(JuniorAll, "junior")    # in printed message, the number of duplicated/useless questions is of the original order.(e.g. 12 means the 12th Q in that concept)
+
+# step 5: create t-test and relative histograms
+JuniorAll.old = CollectAll(x, DataDir, xlsx.name, c("106-1七年級"),"junior")
+CompareAcu(JuniorAll,JuniorAll.old,"junior")
+test_name = c("106年9月測驗", "107年2月測驗")
+PlotComparison(JuniorAll,JuniorAll.old, "junior",test_name,2,850,365)
