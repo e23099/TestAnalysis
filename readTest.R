@@ -37,6 +37,18 @@ getControlSchool = function(path, type){
     school.control
 }
 
+getCompareSchool = function(path, type){
+    xlsx = getXlsxFiles(path, type)
+    if(is.null(xlsx))
+        return(NULL)
+    school.control = xlsx[which(grepl("對照", xlsx))]
+    if(type == "junior")
+        school.control = substr(school.control, regexpr("國中", school.control)-2, regexpr("國中", school.control)-1)
+    else if(type == "elementary")
+        school.control = substr(school.control, regexpr("國小", school.control)-2, regexpr("國小", school.control)-1)
+    school.control
+}
+
 getAllSheet = function(school, path){
     if(!grepl(".xlsx", school))
         school = paste0(school, ".xlsx")
