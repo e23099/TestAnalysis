@@ -206,8 +206,8 @@ CreateAnoControl = function(JuniorAll, JuniorAll.acu, anoControl.name, x.control
 CreateTables = function(JuniorAll, JuniorAll.acu, x.control, x.compare.good, x.compare.norm){
     invisible(CreateAcuAll(JuniorAll, JuniorAll.acu, "Table 1 AcuAll"))
     print("done Table 1")
-    invisible(CreateAnoClass(JuniorAll, JuniorAll.acu, "Table 2 AnoClass"))
-    print("done Table 2")
+    #invisible(CreateAnoClass(JuniorAll, JuniorAll.acu, "Table 2 AnoClass"))
+    print("done Table 2, no more Table 2")
     invisible(CreateAnoSchool(JuniorAll, JuniorAll.acu, "Table 3 AnoSchool"))
     print("done Table 3")
     if(!missing(x.compare.good) & !missing(x.compare.norm)){
