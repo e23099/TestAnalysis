@@ -75,8 +75,8 @@ HistCompareAcu = function(new, old, slice, main, xlab, ylab){
     freq_new = max(hist(new, breaks = seq(0,1,by=slice),plot = FALSE)$counts)
     freq_old = max(hist(old, breaks = seq(0,1,by=slice),plot = FALSE)$counts)
     
-    hist(old, breaks = seq(0,1,by=.2),col=rgb(0,0,0,0.5), main=main, xlab=xlab, ylab=ylab, ylim=c(0,max(freq_old,freq_new)))
-    hist(new, breaks = seq(0,1,by=.2),col=rgb(1,1,1,0.5), add=T)
+    hist(old, breaks = seq(0,1,by=slice),col=rgb(0,0,0,0.5), main=main, xlab=xlab, ylab=ylab, ylim=c(0,max(freq_old,freq_new)))
+    hist(new, breaks = seq(0,1,by=slice),col=rgb(1,1,1,0.5), add=T)
     box()
 }
 
