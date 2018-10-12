@@ -123,9 +123,13 @@ CreateAnoSchool = function(JuniorAll, JuniorAll.acu, anoSchool.name){
     }
 
     for(part in 1:length(JuniorAll.acu)){
-        schoolResult = cbind(schoolResult,
-                            summary(aov(JuniorAll.acu[,part]~JuniorAll$"school"))[[1]][["F value"]][[1]],
-                            summary(aov(JuniorAll.acu[,part]~JuniorAll$"school"))[[1]][["Pr(>F)"]][[1]])
+        part.summary = try(c(summary(aov(JuniorAll.acu[,part]~JuniorAll$"school"))[[1]][["F value"]][[1]],
+                             summary(aov(JuniorAll.acu[,part]~JuniorAll$"school"))[[1]][["Pr(>F)"]][[1]]),
+                           silent = T)
+        if(class(part.summary) == "try-error")
+            schoolResult = append(schoolResult, rep(NA, 2))
+        else
+            schoolResult = append(schoolResult, part.summary)
     }
     anoSchool.col1 = append(anoSchool.col1, "各校間")
     anoSchool = cbind.data.frame(anoSchool.col1, rbind(anoSchool, schoolResult))
