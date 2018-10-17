@@ -72,7 +72,8 @@ cleanData = function(JuniorAll, type){
         print("not supported type in cleanData()")
         return(NULL)
     }
-    ans[ans>1] = 1
+    ans[ans>1] = 1 # correct those > 1 to 1
+    JuniorAll[,5:ncol(JuniorAll)] = ans
     NG.ans = unique(which(!(ans == 1 | ans == 0 | is.na(ans)), arr.ind = T)[,1])
     if(length(NG.ans))
         JuniorAll = JuniorAll[-NG.ans,]
