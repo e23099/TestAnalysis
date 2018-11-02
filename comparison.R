@@ -22,43 +22,30 @@ PairTtest = function(new, old, paired = T){
         print("t.test fails")
         return(NULL)
     }
-    return(c(comparison[[2]],comparison[[1]],comparison[[3]],comparison[[5]]))
+    out = c(comparison[[2]],comparison[[1]],comparison[[3]],comparison[[5]])
+    names(out) = c("df", "t", "p-value", "mean difference")
+    return(out)
 }
 
 ##
 # input two dataframe, type of school, whether using paired sample t test
 # return t test result of each school's total accuracy
 ##
-CompareAcu = function(new, old, type, paired = T){
+CompareAcu = function(new, old, type, name="", paired = T){
     out = NULL
     if(paired){
        com = Pairing(new,old)
        newAcu = CreateAcu(com$new, type)
        oldAcu = CreateAcu(com$old, type)
-       if(type == "junior"){
-           newAcu = Junior_weight_correct(newAcu)
-           oldAcu = Junior_weight_correct(oldAcu)
-       }
-       for(school in unique(com$school)){
-           students = which(new$school == school)
-           total = ncol(newAcu)
-           out = rbind(out, c(school,PairTtest(newAcu[students,total], oldAcu[students,total])))
-       }
+       
+       out = PairTtest(newAcu[,ncol(newAcu)], oldAcu[,ncol(oldAcu)])
     }
     else{
         newAcu = CreateAcu(com$new, type)
         oldAcu = CreateAcu(com$old, type)
-        if(type == "junior"){
-            newAcu = Junior_weight_correct(newAcu)
-            oldAcu = Junior_weight_correct(oldAcu)
-        }
-        for(school in unique(new$school)){
-            students = which(new$school == school)
-            total = ncol(newAcu)
-            out = rbind(out, c(school,PairTtest(newAcu[students,total], oldAcu[students,total])))
-        }
+        
+        out = PairTtest(newAcu[,ncol(newAcu)], oldAcu[,ncol(oldAcu)], paired = F)
     }
-    write.csv(out,"Table 6 (Paired) T test.csv",row.names = F)
     return(out)
 }
 
@@ -80,6 +67,18 @@ HistCompareAcu = function(new, old, slice, main, xlab, ylab){
     box()
 }
 
+##
+# intput : a vector of accuracy, main name
+# return : Paint a histogram
+##
+
+HistAcu = function(acu, main, slice = .1, ylim = NULL){
+    if(is.null(ylim))
+        hist(acu, breaks = seq(0,1,by=slice),main=main,xlab="答對率", ylab="次數")
+    else
+        hist(acu, breaks = seq(0,1,by=slice),main=main,xlab="答對率", ylab="次數", ylim=c(0,ylim))
+    box()
+}
 
 ##
 # input  : 2 dataframe, school type, test time for legend names, k plots a row, width, height, slice for histogram
@@ -117,4 +116,22 @@ PlotComparison = function(new, old, type, legendName,k, w, h, slice = 0.2){
         }
         try(dev.off(), silent = T) # close last png file if necessary
     }
+}
+
+##
+# input  : Paired Object, schools in experiment group, test time for legend names, k plots a row, width, height, slice for histogram
+# return : plot each part's accuracy histogram for each school 
+##
+
+PlotComparison2 = function(new, old, type,name, w=850, h=360, main = c("前測","後測"), slice = .1){
+    dir.create(paste0(dir,paste0("/compare/group")), showWarnings = FALSE)
+    png(file = paste0(dir, "/compare/group/",name,".png"), width = w, height = h)
+    par(mfrow=c(1,2), cex.main = 2, cex.lab = 1.5, cex.axis = 1.5)
+    new=CreateAcu(new,type)
+    old=CreateAcu(old,type)
+    freq_new = max(hist(new[,ncol(new)], breaks = seq(0,1,by=slice),plot = FALSE)$counts)
+    freq_old = max(hist(old[,ncol(old)], breaks = seq(0,1,by=slice),plot = FALSE)$counts)
+    HistAcu(new[,ncol(new)], main[1], slice = slice, ylim = max(freq_old,freq_new))
+    HistAcu(old[,ncol(old)], main[2], slice = slice, ylim = max(freq_old,freq_new))
+    dev.off()
 }

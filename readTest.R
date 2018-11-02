@@ -200,7 +200,9 @@ CreateAcu = function(JuniorAll, type, out = "acu"){
     if(out == "sum"){
         return(JuniorAll.sum)
     }
-
+    if(type == "junior"){
+        JuniorAll.acu = Junior_weight_correct(JuniorAll.acu)
+    }
     return(JuniorAll.acu)
 }
 

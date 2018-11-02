@@ -5,6 +5,7 @@ CreateReva = function(RealAns, type, fm = "gls", tableName = "Table 5 Reliabilit
     if(type == "junior"){
         part.num = c(3,3,3,6,9)
         part = rep(1:5, part.num)
+        # part[5] = NA
         part.name = c("L1", "L2", "L3", "R1", "R2")
     }
     else if(type == "elementary"){
@@ -73,9 +74,16 @@ CreateReva_Concept = function(RealAns, type, fm = "gls", tableName = "Table 5 Re
         part.name = c("L1", "L2", "L3", "R1", "R2")
         part.num = c(3,3,3,6,9)
         part = rep(1:5, part.num)
+        # part[5] = NA
     }
     else if(type == "elementary"){
-        concept = rep(1:3, c(30, 20, 10))
+        # concept = rep(1:3, c(30, 20, 10))
+        concept = c(rep(1, 20), rep(2,10), rep(3,15), rep(2,5), rep(4,5), rep(5,5))
+        # 1: alphbet                part 1, 2, 3
+        # 2: natural pronunciation  part 4, 8
+        # 3: vocabularies           part 5, 6, 7
+        # 4: listening              part 9
+        # 5: reading                part 10
         part.name = paste0("Part", 1:10)
         part.num = c(5,5,10,10,5,5,5,5,5,5)
         part = rep(1:10, part.num)
